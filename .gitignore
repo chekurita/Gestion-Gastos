@@ -13,6 +13,18 @@ target/
 .springBeans
 .sts4-cache
 
+/bin/
+/target/
+/build/
+/out/
+/*.log
+/.idea/
+/*.iml
+/.classpath
+/.project
+.DS_Store
+
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
