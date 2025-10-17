@@ -11,3 +11,5 @@ document.getElementById("btnLogin").addEventListener("click", () => {
     .then(data => alert(`Bienvenido, ${data.nombre}`))
     .catch(err => alert(err));
 });
+
+

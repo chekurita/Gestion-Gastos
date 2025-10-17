@@ -12,3 +12,5 @@ document.getElementById("btnRegistro").addEventListener("click", () => {
     .then(() => alert("Cuenta creada correctamente"))
     .catch(err => alert(err));
 });
+
+
