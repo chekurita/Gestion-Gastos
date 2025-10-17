@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-primario: #00bcd4;
+  --color-primario-hover: #00a4bb;
+  --negro: #0e0e0e;
+  --gris-oscuro: #1c1c1c;
+  --gris: #2e2e2e;
+  --gris-claro: #cfcfcf;
+  --blanco: #ffffff;
+}
+
+/* ======== RESET ======== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ======== GENERAL ======== */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--negro);
+  color: var(--blanco);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ======== HEADER ======== */
+header {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(to right, var(--gris-oscuro), var(--negro));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+header h1 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  letter-spacing: 0.5px;
+}
+
+/* ======== INICIO ======== */
+.inicio main {
+  text-align: center;
+  margin-top: 5rem;
+  padding: 0 1rem;
+}
+
+.inicio h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--blanco);
+}
+
+.inicio p {
+  color: var(--gris-claro);
+  margin-top: 1rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.acciones {
+  margin-top: 3rem;
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--color-primario);
+  color: var(--blanco);
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0.6rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
+}
+
+.btn:hover {
+  background-color: var(--color-primario-hover);
+  box-shadow: 0 0 15px rgba(0, 188, 212, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-secundario {
+  background-color: var(--gris);
+  box-shadow: none;
+}
+
+.btn-secundario:hover {
+  background-color: #3a3a3a;
+}
+
+/* ======== LOGIN & REGISTRO ======== */
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--negro);
+  flex-grow: 1;
+}
+
+.form-container {
+  background-color: var(--gris-oscuro);
+  padding: 2.5rem;
+  border-radius: 12px;
+  width: 350px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.form-container h2 {
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 0.9rem;
+  margin: 0.6rem 0;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--gris);
+  color: var(--blanco);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  outline: 2px solid var(--color-primario);
+  background-color: #222;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+button.btn {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+p {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  color: var(--gris-claro);
+}
+
+p a {
+  color: var(--color-primario);
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+/* ======== ANIMACIONES ======== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 480px) {
+  .form-container {
+    width: 85%;
+    padding: 2rem;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  .inicio h2 {
+    font-size: 1.3rem;
+  }
+}
