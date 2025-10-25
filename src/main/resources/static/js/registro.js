@@ -1,12 +1,12 @@
 document.getElementById("btnRegistro").addEventListener("click", () => {
   const nombre = document.getElementById("nombre").value;
   const email = document.getElementById("email").value;
-  const clave = document.getElementById("clave").value;
+  const password = document.getElementById("password").value;
 
-  fetch("http://localhost:8080/api/usuarios/registro", {
+  fetch("http://localhost:8080/api/usuarios/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nombre, email, clave }),
+    body: JSON.stringify({ nombre, email, password }),
   })
     .then(res => res.ok ? res.json() : Promise.reject("Error al registrar"))
     .then(() => alert("Cuenta creada correctamente"))
