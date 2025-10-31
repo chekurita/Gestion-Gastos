@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard - Gestión Gastos</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>Gastos</h1>
+      </div>
+      <nav>
+        <ul>
+          <li class="active" data-section="overview">Overview</li>
+          <li data-section="gastos">Mis Gastos</li>
+          <li data-section="categorias">Categorías</li>
+          <li data-section="nuevo">Agregar Gasto</li>
+          <li id="logoutBtn">Cerrar sesión</li>
+        </ul>
+      </nav>
+      <footer class="sidebar-footer">
+        <small id="userEmail">—</small>
+      </footer>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h2 id="pageTitle">Overview</h2>
+      </header>
+
+      <section class="content">
+        <!-- Overview -->
+        <div id="overview" class="page visible">
+          <div class="cards">
+            <div class="card">
+              <h3>Total gastado</h3>
+              <p id="totalGastado">$0.00</p>
+            </div>
+            <div class="card">
+              <h3>Cantidad de gastos</h3>
+              <p id="countGastos">0</p>
+            </div>
+            <div class="card">
+              <h3>Categorías</h3>
+              <p id="countCategorias">0</p>
+            </div>
+          </div>
+
+          <div class="recent">
+            <h3>Gastos recientes</h3>
+            <table id="tablaRecientes" class="table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Descripción</th>
+                  <th>Categoría</th>
+                  <th>Monto</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Gastos -->
+        <div id="gastos" class="page">
+          <div class="panel">
+            <h3>Mis Gastos</h3>
+            <table id="tablaGastos" class="table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Descripción</th>
+                  <th>Categoría</th>
+                  <th>Monto</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Categorías -->
+        <div id="categorias" class="page">
+          <div class="panel">
+            <h3>Categorías</h3>
+            <div class="categoria-form">
+              <input id="categoriaNombre" placeholder="Nueva categoría" />
+              <button id="btnCrearCategoria">Crear</button>
+            </div>
+            <ul id="listaCategorias" class="list"></ul>
+          </div>
+        </div>
+
+        <!-- Nuevo Gasto -->
+        <div id="nuevo" class="page">
+          <div class="panel">
+            <h3>Agregar Gasto</h3>
+            <form id="formGasto">
+              <label>
+                Descripción
+                <input id="gastoDescripcion" type="text" maxlength="255" />
+              </label>
+
+              <label>
+                Monto
+                <input id="gastoMonto" type="number" step="0.01" min="0" required />
+              </label>
+
+              <label>
+                Fecha
+                <input id="gastoFecha" type="date" required />
+              </label>
+
+              <label>
+                Categoría
+                <select id="gastoCategoria">
+                  <option value="">-- Sin categoría --</option>
+                </select>
+              </label>
+
+              <div class="actions">
+                <button type="submit" id="btnAgregarGasto">Agregar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Mensajes -->
+        <div id="message" class="toast" role="status" aria-live="polite"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

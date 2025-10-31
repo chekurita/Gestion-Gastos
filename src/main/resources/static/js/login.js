@@ -24,8 +24,8 @@ document.getElementById("btnLogin").addEventListener("click", () => {
     console.log("Login exitoso:", data);
     // Guarda el token en localStorage
     localStorage.setItem("token", data.token);
-    // Redirige al usuario al dashboard o página principal
-    //window.location.href = "dashboard.html"; // 👈 o la ruta que uses
+     //Redirige al usuario al dashboard o página principal
+    window.location.href = "dashboard.html"; // 👈 o la ruta que uses
   })
   .catch(error => {
     console.error("Error:", error);

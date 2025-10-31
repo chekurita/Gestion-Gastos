@@ -71,4 +71,10 @@ public class UsuarioServiceImp implements UsuarioService {
                 .map(AppMapper::toUsuarioResponse)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
     }
+   
+    @Override
+    public Usuario findByEmail(String email) {
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
 }
