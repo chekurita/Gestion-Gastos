@@ -9,29 +9,164 @@
   --gris-claro: #cfcfcf;
   --blanco: #ffffff;
 }
-/* ==== DASHBOARD ==== */
-body {
-  background-color: #f9f9f9;
+/* ==== DASHBOARD UI ==== */
+.app {
+  display: flex;
+  height: 100vh;
 }
 
-#userInfo {
-  font-size: 1.2rem;
-  margin-top: 20px;
-  color: #333;
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background-color: var(--gris-oscuro);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
 }
 
-button {
-  padding: 10px 15px;
-  border: none;
-  background-color: #0078d7;
-  color: white;
-  border-radius: 5px;
+.sidebar .brand {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--color-primario);
+}
+
+.nav-list {
+  list-style: none;
+  margin-top: 2rem;
+}
+
+.nav-item {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
   cursor: pointer;
+  transition: background 0.2s ease;
+  font-weight: 500;
 }
 
-button:hover {
-  background-color: #005fa3;
+.nav-item:hover {
+  background-color: var(--gris);
 }
+
+.nav-item.active {
+  background-color: var(--color-primario);
+  color: var(--negro);
+  font-weight: 600;
+}
+
+.nav-item.logout {
+  margin-top: 1rem;
+  color: var(--gris-claro);
+}
+
+/* Main */
+.main {
+  flex: 1;
+  background-color: var(--negro);
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  padding: 1.2rem 2rem;
+  background-color: var(--gris-oscuro);
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.topbar h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+/* Panels, Cards & Tables */
+.panel, .card {
+  background-color: var(--gris-oscuro);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  margin-bottom: 2rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card h3 {
+  font-size: 1rem;
+  color: var(--gris-claro);
+}
+
+.card .highlight {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  color: var(--color-primario);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table th, .table td {
+  padding: 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--gris);
+}
+
+.table th {
+  color: var(--gris-claro);
+  font-weight: 600;
+}
+
+.table tr:hover {
+  background-color: var(--gris);
+}
+
+/* Formulario */
+.form label {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.form input, .form select {
+  margin-top: 0.4rem;
+}
+
+.actions {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+/* Toast / Mensajes */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--gris-oscuro);
+  color: var(--blanco);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
 
 /* ======== RESET ======== */
 * {

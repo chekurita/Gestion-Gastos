@@ -49,6 +49,7 @@ public class SecurityConfig {
                         
                             "/favicon.ico",
                             "/index.html",
+                            "/registro.html",
                             "/login.html",
                             "/dashboard.html",
                             "/dashboard.js",
