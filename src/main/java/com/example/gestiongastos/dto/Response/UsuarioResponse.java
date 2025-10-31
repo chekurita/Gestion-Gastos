@@ -33,7 +33,6 @@ public class UsuarioResponse {
 			this.email = email;
 		}
 
-	    // getters y setters
 	    
 
 }
