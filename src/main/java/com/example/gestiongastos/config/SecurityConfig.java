@@ -36,8 +36,24 @@ public class SecurityConfig {
             }))
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/usuarios/register", "/api/usuarios/login").permitAll()
-                .requestMatchers("/css/**", "/js/**", "/img/**","/index.html", "/login.html", "/registro.html", "/dashboard.html").permitAll()
+            		.requestMatchers(
+                            "/api/usuarios/register",
+                            "/api/usuarios/login"
+                        ).permitAll()
+
+                        // ✅ Archivos estáticos
+                        .requestMatchers(
+                            "/css/**",
+                            "/js/**",
+                            "/images/**",
+                        
+                            "/favicon.ico",
+                            "/index.html",
+                            "/login.html",
+                            "/dashboard.html",
+                            "/dashboard.js",
+                            "/styles.css"
+                        ).permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

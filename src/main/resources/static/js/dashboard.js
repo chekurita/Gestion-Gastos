@@ -1,7 +1,4 @@
-/* dashboard.js
- - Requiere que en localStorage exista "user" con { id, nombre, email, token }
- - Si en tu login guardaste sólo token y no user info, modificá login para almacenar user completo.
-*/
+
 
 const API = "http://localhost:8080/api";
 const messageEl = document.getElementById("message");
