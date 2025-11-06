@@ -2,9 +2,11 @@ package com.example.gestiongastos.Mapper;
 
 import com.example.gestiongastos.dto.Response.CategoriaResponse;
 import com.example.gestiongastos.dto.Response.GastoResponse;
+import com.example.gestiongastos.dto.Response.IngresoResponse;
 import com.example.gestiongastos.dto.Response.UsuarioResponse;
 import com.example.gestiongastos.model.Categoria;
 import com.example.gestiongastos.model.Gasto;
+import com.example.gestiongastos.model.Ingreso;
 import com.example.gestiongastos.model.Usuario;
 
 public class AppMapper {
@@ -38,5 +40,18 @@ public class AppMapper {
             r.setCategoriaNombre(g.getCategoria().getNombre());
         }
         return r;
+    }
+    
+    public static IngresoResponse toIngresoResponse(Ingreso i) {
+        if (i == null) return null;
+        
+        return new IngresoResponse(
+            i.getId(),
+            i.getMonto(),
+            i.getDescripcion(),
+            i.getFecha(),
+            (i.getCategoria() != null) ? i.getCategoria().getNombre() : null,
+            "ingreso"
+        );
     }
 }
