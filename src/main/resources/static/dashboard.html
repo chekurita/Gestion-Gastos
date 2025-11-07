@@ -15,8 +15,7 @@
       </div>
       <nav>
         <ul class="nav-list">
-          <li class="nav-item active" data-section="overview">📊 Overview</li>
-          <li class="nav-item" data-section="gastos">🧾 Mis Gastos</li>
+		  <li class="nav-item active" data-section="gastos">🧾 Mis Gastos</li>>
           <li class="nav-item" data-section="categorias">🏷️ Categorías</li>
           <li class="nav-item" data-section="nuevo">➕ Agregar Gasto</li>
           <li class="nav-item logout" id="logoutBtn">🚪 Cerrar sesión</li>
@@ -90,48 +89,51 @@
           </div>
         </div>
 
-        <!-- Categorías -->
-        <div id="categorias" class="page">
-          <div class="panel">
-            <h3>Categorías</h3>
-            <div class="categoria-form">
-              <input id="categoriaNombre" placeholder="Nueva categoría" />
-              <button id="btnCrearCategoria" class="btn">Crear</button>
-            </div>
-            <ul id="listaCategorias" class="list"></ul>
-          </div>
-        </div>
+		<!-- Modal Categorías -->
+		<div id="modalCategorias" class="modal">
+		  <div class="modal-content">
+		    <span class="close" id="closeCategorias">&times;</span>
+		    <h3>Categorías</h3>
+		    <div class="categoria-form">
+		      <input id="categoriaNombre" placeholder="Nueva categoría" />
+		      <button id="btnCrearCategoria" class="btn">Crear</button>
+		    </div>
+		    <ul id="listaCategorias" class="list"></ul>
+		  </div>
+		</div>
 
-        <!-- Nuevo Gasto -->
-        <div id="nuevo" class="page">
-          <div class="panel">
-            <h3>Agregar Gasto</h3>
-            <form id="formGasto" class="form">
-              <label>Descripción
-                <input id="gastoDescripcion" type="text" maxlength="255" />
-              </label>
 
-              <label>Monto
-                <input id="gastoMonto" type="number" step="0.01" min="0" required />
-              </label>
+		<!-- Modal Agregar Gasto -->
+		<div id="modalGasto" class="modal">
+		  <div class="modal-content">
+		    <span class="close" id="closeModal">&times;</span>
+		    <h3>Agregar Gasto</h3>
+		    <form id="formGasto" class="form">
+		      <label>Descripción
+		        <input id="gastoDescripcion" type="text" maxlength="255" />
+		      </label>
 
-              <label>Fecha
-                <input id="gastoFecha" type="date" required />
-              </label>
+		      <label>Monto
+		        <input id="gastoMonto" type="number" step="0.01" min="0" required />
+		      </label>
 
-              <label>Categoría
-                <select id="gastoCategoria">
-                  <option value="">-- Sin categoría --</option>
-                </select>
-              </label>
+		      <label>Fecha
+		        <input id="gastoFecha" type="date" required />
+		      </label>
 
-              <div class="actions">
-                <button type="submit" id="btnAgregarGasto" class="btn">Agregar</button>
-              </div>
-            </form>
-          </div>
-        </div>
+		      <label>Categoría
+		        <select id="gastoCategoria">
+		          <option value="">-- Sin categoría --</option>
+		        </select>
+		      </label>
 
+		      <div class="actions">
+		        <button type="submit" id="btnAgregarGasto" class="btn">Agregar</button>
+		      </div>
+		    </form>
+		  </div>
+		</div>
+		
         <!-- Mensajes -->
         <div id="message" class="toast" role="status" aria-live="polite"></div>
       </section>

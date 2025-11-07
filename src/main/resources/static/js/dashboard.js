@@ -242,3 +242,42 @@ async function refreshAll() {
   await fetchUserInfo();
   await refreshAll();
 })();
+
+const modal = document.getElementById('modalGasto');
+const btnAgregar = document.querySelector('[data-section="nuevo"]');
+const btnCerrar = document.getElementById('closeModal');
+
+btnAgregar.addEventListener('click', () => {
+  modal.style.display = 'flex';
+});
+
+btnCerrar.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+// Opcional: cerrar al hacer clic fuera del contenido
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+const modalCategorias = document.getElementById('modalCategorias');
+const btnCategorias = document.querySelector('[data-section="categorias"]');
+const btnCerrarCategorias = document.getElementById('closeCategorias');
+
+btnCategorias.addEventListener('click', () => {
+  modalCategorias.style.display = 'flex';
+});
+
+btnCerrarCategorias.addEventListener('click', () => {
+  modalCategorias.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target === modalCategorias) {
+    modalCategorias.style.display = 'none';
+  }
+});
+
+
