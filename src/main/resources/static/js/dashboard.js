@@ -127,6 +127,7 @@ function renderCategorias(categorias) {
       select.appendChild(option);
     });
   });
+	document.getElementById("countCategorias").textContent = categorias.length;
 }
 
 function renderGastos(list) {
