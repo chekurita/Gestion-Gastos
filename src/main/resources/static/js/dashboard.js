@@ -294,6 +294,9 @@ async function refreshAll() {
   await fetchCategorias();
   await fetchGastos();
   await fetchIngresos();
+  const gastos = await fetchGastos();
+  const ingresos = await fetchIngresos();
+  updateBalance(gastos, ingresos);
 }
 
 /* initial load */
@@ -394,5 +397,22 @@ window.addEventListener('click', (e) => {
     modalIngreso.style.display = 'none';
   }
 });
+
+function updateBalance(gastos, ingresos) {
+  const totalGastos = gastos.reduce((s, g) => s + Number(g.monto || 0), 0);
+  const totalIngresos = ingresos.reduce((s, i) => s + Number(i.monto || 0), 0);
+  const balance = totalIngresos - totalGastos;
+
+  const el = document.getElementById("balanceTotal");
+  el.textContent = `$${balance.toFixed(2)}`;
+  el.classList.remove("positivo", "negativo");
+
+  if (balance >= 0) {
+    el.classList.add("positivo");
+  } else {
+    el.classList.add("negativo");
+  }
+}
+
 
 

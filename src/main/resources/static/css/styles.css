@@ -494,4 +494,12 @@ p a:hover {
 	}
 }
 
+.highlight.positivo {
+  color: #2e7d32; /* verde suave */
+}
+
+.highlight.negativo {
+  color: #c62828; /* rojo suave */
+}
+
 
