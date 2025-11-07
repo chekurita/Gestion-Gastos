@@ -245,6 +245,8 @@ document.getElementById("btnCrearCategoria").addEventListener("click", async () 
     if (!res.ok) throw new Error("Error creando categoría");
     document.getElementById("categoriaNombre").value = "";
     showMessage("Categoría creada");
+	document.getElementById("modalCategorias").style.display = "none"; //cerrar modal
+	await refreshAll(); //actualizar todo
     await refreshAll();
   } catch (e) {
     console.error(e);
@@ -280,12 +282,52 @@ document.getElementById("formGasto").addEventListener("submit", async (ev) => {
     }
     showMessage("Gasto creado");
     document.getElementById("formGasto").reset();
+	modal.style.display = "none";
+	await refreshAll();
     await refreshAll();
     // switch to gastos list
     document.querySelector('.sidebar li[data-section="gastos"]').click();
   } catch (e) {
     console.error(e);
     showMessage("Error creando gasto");
+  }
+});
+
+/* Add ingreso */
+document.getElementById("formIngreso").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const descripcion = document.getElementById("ingresoDescripcion").value.trim();
+  const monto = parseFloat(document.getElementById("ingresoMonto").value);
+  const fecha = document.getElementById("ingresoFecha").value;
+  const categoriaId = document.getElementById("ingresoCategoria").value || null;
+
+  if (!monto || !fecha) { showMessage("Completá monto y fecha"); return; }
+
+  try {
+    const res = await fetch(`${API}/ingresos`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({
+        descripcion,
+        monto,
+        fecha,
+        usuarioId: user.id,
+        categoriaId: categoriaId ? Number(categoriaId) : null
+      })
+    });
+    if (!res.ok) {
+      const txt = await res.text();
+      throw new Error(txt || "Error creando ingreso");
+    }
+    showMessage("Ingreso creado");
+    document.getElementById("formIngreso").reset();
+	modalIngreso.style.display = "none";
+	await refreshAll();
+    await fetchIngresos();
+    document.querySelector('.sidebar li[data-section="ingresos"]').click();
+  } catch (e) {
+    console.error(e);
+    showMessage("Error creando ingreso");
   }
 });
 
@@ -341,41 +383,6 @@ btnCerrarCategorias.addEventListener('click', () => {
 window.addEventListener('click', (e) => {
   if (e.target === modalCategorias) {
     modalCategorias.style.display = 'none';
-  }
-});
-
-document.getElementById("formIngreso").addEventListener("submit", async (ev) => {
-  ev.preventDefault();
-  const descripcion = document.getElementById("ingresoDescripcion").value.trim();
-  const monto = parseFloat(document.getElementById("ingresoMonto").value);
-  const fecha = document.getElementById("ingresoFecha").value;
-  const categoriaId = document.getElementById("ingresoCategoria").value || null;
-
-  if (!monto || !fecha) { showMessage("Completá monto y fecha"); return; }
-
-  try {
-    const res = await fetch(`${API}/ingresos`, {
-      method: "POST",
-      headers: authHeaders(),
-      body: JSON.stringify({
-        descripcion,
-        monto,
-        fecha,
-        usuarioId: user.id,
-        categoriaId: categoriaId ? Number(categoriaId) : null
-      })
-    });
-    if (!res.ok) {
-      const txt = await res.text();
-      throw new Error(txt || "Error creando ingreso");
-    }
-    showMessage("Ingreso creado");
-    document.getElementById("formIngreso").reset();
-    await fetchIngresos();
-    document.querySelector('.sidebar li[data-section="ingresos"]').click();
-  } catch (e) {
-    console.error(e);
-    showMessage("Error creando ingreso");
   }
 });
 
