@@ -10,6 +10,7 @@ import com.example.gestiongastos.model.Ingreso;
 import com.example.gestiongastos.model.Usuario;
 
 public class AppMapper {
+
     public static UsuarioResponse toUsuarioResponse(Usuario u) {
         if (u == null) return null;
         UsuarioResponse r = new UsuarioResponse();
@@ -41,17 +42,19 @@ public class AppMapper {
         }
         return r;
     }
-    
+
     public static IngresoResponse toIngresoResponse(Ingreso i) {
         if (i == null) return null;
-        
-        return new IngresoResponse(
-            i.getId(),
-            i.getMonto(),
-            i.getDescripcion(),
-            i.getFecha(),
-            (i.getCategoria() != null) ? i.getCategoria().getNombre() : null,
-            "ingreso"
-        );
+        IngresoResponse r = new IngresoResponse();
+        r.setId(i.getId());
+        r.setDescripcion(i.getDescripcion());
+        r.setMonto(i.getMonto());
+        r.setFecha(i.getFecha());
+        if (i.getUsuario() != null) r.setUsuarioId(i.getUsuario().getId());
+        if (i.getCategoria() != null) {
+            r.setCategoriaId(i.getCategoria().getId());
+            r.setCategoriaNombre(i.getCategoria().getNombre());
+        }
+        return r;
     }
 }

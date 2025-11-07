@@ -61,6 +61,9 @@ document.querySelectorAll(".sidebar li[data-section]").forEach(li => {
     document.querySelectorAll(".page").forEach(p => p.classList.remove("visible"));
     document.getElementById(section).classList.add("visible");
     document.getElementById("pageTitle").textContent = li.textContent;
+
+    if (section === "gastos") fetchGastos();
+    if (section === "ingresos") fetchIngresos();
   });
 });
 
@@ -95,23 +98,35 @@ async function fetchGastos() {
   }
 }
 
-/* Renderers */
-function renderCategorias(list) {
-  const sel = document.getElementById("gastoCategoria");
-  const ul = document.getElementById("listaCategorias");
-  sel.innerHTML = `<option value="">-- Sin categoría --</option>`;
-  ul.innerHTML = "";
-  list.forEach(c => {
-    const opt = document.createElement("option");
-    opt.value = c.id;
-    opt.textContent = c.nombre;
-    sel.appendChild(opt);
+async function fetchIngresos() {
+  try {
+    const res = await fetch(`${API}/ingresos/usuario/${user.id}`, { headers: authHeaders() });
+    if (!res.ok) throw new Error("No se pudieron cargar ingresos");
+    const data = await res.json();
+    renderIngresos(data);
+    return data;
+  } catch (e) {
+    console.error(e);
+    showMessage("Error cargando ingresos");
+    return [];
+  }
+}
 
-    const li = document.createElement("li");
-    li.textContent = c.nombre;
-    ul.appendChild(li);
+
+/* Renderers */
+function renderCategorias(categorias) {
+  const gastoSelect = document.getElementById("gastoCategoria");
+  const ingresoSelect = document.getElementById("ingresoCategoria");
+
+  [gastoSelect, ingresoSelect].forEach(select => {
+    select.innerHTML = '<option value="">Sin categoría</option>';
+    categorias.forEach(cat => {
+      const option = document.createElement("option");
+      option.value = cat.id;
+      option.textContent = cat.nombre;
+      select.appendChild(option);
+    });
   });
-  document.getElementById("countCategorias").textContent = list.length;
 }
 
 function renderGastos(list) {
@@ -131,7 +146,6 @@ function renderGastos(list) {
     `;
     tbody.appendChild(tr);
 
-    // recientes: los primeros 5
     if (recent.children.length < 5) {
       const tr2 = document.createElement("tr");
       tr2.innerHTML = `
@@ -144,7 +158,7 @@ function renderGastos(list) {
     }
   });
 
-  // attach delete handlers
+  // attach delete handlers para gastos
   document.querySelectorAll(".btn-delete").forEach(btn => {
     btn.addEventListener("click", async (e) => {
       const id = e.target.dataset.id;
@@ -156,7 +170,7 @@ function renderGastos(list) {
         });
         if (!res.ok) throw new Error("No se pudo eliminar");
         showMessage("Gasto eliminado");
-        await refreshAll();
+        await fetchGastos();
       } catch (err) {
         console.error(err);
         showMessage("Error eliminando gasto");
@@ -166,6 +180,51 @@ function renderGastos(list) {
 
   document.getElementById("countGastos").textContent = list.length;
 }
+
+
+function renderIngresos(ingresos) {
+  const tbody = document.querySelector('#tablaIngresos tbody');
+  tbody.innerHTML = '';
+
+  if (ingresos.length === 0) {
+    const fila = document.createElement('tr');
+    fila.innerHTML = `<td colspan="5" style="text-align:center;">Sin ingresos registrados</td>`;
+    tbody.appendChild(fila);
+    return;
+  }
+
+  ingresos.forEach(ingreso => {
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+      <td>${ingreso.fecha}</td>
+      <td>${ingreso.descripcion || '-'}</td>
+      <td>${ingreso.categoriaNombre || 'Sin categoría'}</td>
+      <td>$${Number(ingreso.monto).toFixed(2)}</td>
+      <td>
+        <button class="btn btn-danger" onclick="eliminarIngreso(${ingreso.id})">Eliminar</button>
+      </td>
+    `;
+    tbody.appendChild(fila);
+  });
+}
+
+async function eliminarIngreso(id) {
+  if (!confirm("¿Eliminar ingreso?")) return;
+  try {
+    const res = await fetch(`${API}/ingresos/${id}`, {
+      method: "DELETE",
+      headers: authHeaders()
+    });
+    if (!res.ok) throw new Error("No se pudo eliminar ingreso");
+    showMessage("Ingreso eliminado");
+    await fetchIngresos();
+  } catch (err) {
+    console.error(err);
+    showMessage("Error eliminando ingreso");
+  }
+}
+
+
 
 function updateOverview(list) {
   const total = list.reduce((s, g) => s + Number(g.monto || 0), 0);
@@ -233,6 +292,7 @@ document.getElementById("formGasto").addEventListener("submit", async (ev) => {
 async function refreshAll() {
   await fetchCategorias();
   await fetchGastos();
+  await fetchIngresos();
 }
 
 /* initial load */
@@ -277,6 +337,60 @@ btnCerrarCategorias.addEventListener('click', () => {
 window.addEventListener('click', (e) => {
   if (e.target === modalCategorias) {
     modalCategorias.style.display = 'none';
+  }
+});
+
+document.getElementById("formIngreso").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const descripcion = document.getElementById("ingresoDescripcion").value.trim();
+  const monto = parseFloat(document.getElementById("ingresoMonto").value);
+  const fecha = document.getElementById("ingresoFecha").value;
+  const categoriaId = document.getElementById("ingresoCategoria").value || null;
+
+  if (!monto || !fecha) { showMessage("Completá monto y fecha"); return; }
+
+  try {
+    const res = await fetch(`${API}/ingresos`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({
+        descripcion,
+        monto,
+        fecha,
+        usuarioId: user.id,
+        categoriaId: categoriaId ? Number(categoriaId) : null
+      })
+    });
+    if (!res.ok) {
+      const txt = await res.text();
+      throw new Error(txt || "Error creando ingreso");
+    }
+    showMessage("Ingreso creado");
+    document.getElementById("formIngreso").reset();
+    await fetchIngresos();
+    document.querySelector('.sidebar li[data-section="ingresos"]').click();
+  } catch (e) {
+    console.error(e);
+    showMessage("Error creando ingreso");
+  }
+});
+
+
+const modalIngreso = document.getElementById('modalIngreso');
+const btnNuevoIngreso = document.querySelector('[data-section="nuevo-ingreso"]');
+const btnCerrarIngreso = document.getElementById('closeIngreso');
+
+btnNuevoIngreso.addEventListener('click', () => {
+  modalIngreso.style.display = 'flex';
+});
+
+btnCerrarIngreso.addEventListener('click', () => {
+  modalIngreso.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target === modalIngreso) {
+    modalIngreso.style.display = 'none';
   }
 });
 
